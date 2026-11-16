@@ -23,7 +23,15 @@ jobs:
       - name: Installer les dependances
         run: |
           python -m pip install --upgrade pip
-          pip install flask
+          pip install flask unittest-xml-reporting
 
-      - name: Executer les tests unitaires
-        run: python -m unittest test_student_manager.py -v
+      - name: Executer les tests et generer le rapport XML
+        run: |
+          python -m xmlrunner discover -s . -p "test_student_manager.py" -o test-reports
+
+      - name: Publier le rapport XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rapport-tests-xml
+          path: test-reports/
