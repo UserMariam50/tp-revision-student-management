@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Gestion des étudiants</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #dbeafe, #ede9fe);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: white;
+            width: 100%;
+            max-width: 550px;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #3730a3;
+            margin-bottom: 12px;
+        }
+
+        .description {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            color: #334155;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 18px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #6366f1;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #3730a3;
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 10px;
+        }
+
+        .result h2 {
+            color: #166534;
+            margin-bottom: 15px;
+        }
+
+        .result p {
+            color: #334155;
+            margin: 12px 0;
+            font-size: 16px;
+        }
+
+        .error {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fef2f2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+        }
+
+        .footer {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 12px;
+            margin-top: 25px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Gestion des notes</h1>
+
+        <p class="description">
+            Calculez la moyenne et découvrez la mention de l'étudiant.
+        </p>
+
+        <form method="POST">
+
+            <label for="grades">Saisir les notes :</label>
+
+            <input
+                type="text"
+                id="grades"
+                name="grades"
+                placeholder="Ex: 12, 15, 18"
+                value="{{ grades|join(',') if grades else '' }}"            >
+
+            <button type="submit" id="calculate">
+                Calculer les résultats
+            </button>
+
+        </form>
+
+        {% if error %}
+            <div class="error" id="error">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        {% if average is not none %}
+
+            <div class="result">
+
+                <h2>Résultats</h2>
+                <p>
+                    <strong>Notes saisies :</strong>
+                    <span id="grades">{{ grades|join("  ") }}</span>
+                </p>
+                <p>
+                    <strong>Moyenne :</strong>
+                    <span id="average">{{ "%.2f"|format(average) }}</span>
+                </p>
+
+                <p>
+                    <strong>Mention :</strong>
+                    <span id="mention">{{ mention }}</span>
+                </p>
+
+                <p>
+                    <strong>Admission :</strong>
+                    <span id="admission">
+                        {{ "Admis" if admitted else "Non admis" }}
+                    </span>
+                </p>
+
+            </div>
+
+        {% endif %}
+
+        <div class="footer">
+            Application développée avec Python et Flask
+        </div>
+
+    </div>
+
+</body>
+</html>
