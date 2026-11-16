@@ -31,7 +31,7 @@ class TestStudentManager(unittest.TestCase):
 
     # 6. Mention Excellent
     def test_mention_excellent(self):
-        self.assertEqual(get_mention(18), "Très bien")
+        self.assertEqual(get_mention(18), "Excellent")
 
     # 7. Étudiant admis
     def test_admitted(self):
